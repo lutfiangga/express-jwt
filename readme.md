@@ -33,15 +33,20 @@ This is a simple project that implements user login functionality using JWT (JSO
    ```bash
    cd express-jwt
    ```
+   
 3. Install dependencies for the backend:
+  ```bash
+   cd backend
+   ```
    ```bash
-  cd backend
-  npm install
+   npm install
    ```
 4. Install dependencies for the backend:
+  ```bash
+   cd frontend
+   ```
    ```bash
-  cd frontend
-  npm install
+   npm install
    ```
 
 ## Configuration
@@ -60,15 +65,19 @@ This is a simple project that implements user login functionality using JWT (JSO
 ## Running the Project
 
 1. Start the backend server:
+ ```bash
+   cd backend
+   ```
    ```bash
-  cd backend
-  nodemon index
+   nodemon index
    ```
 2. Start the frontend server:
+  ```bash
+   cd frontend
+   ```
    ```bash
-  cd frontend
-  npm run dev
-  ```
+   npm run dev
+   ```
 
 ## Usage
 - Register a new user.
