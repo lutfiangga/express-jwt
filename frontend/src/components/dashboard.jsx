@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [name, setName] = useState('')
   const [token, setToken] = useState('')
   const [expire, setExpire] = useState('')
+  const [user, setUser] = useState([])
   const navigate = useNavigate()
 
   const refreshToken = async () => {
@@ -19,49 +20,81 @@ const Dashboard = () => {
       setName(decoded.name)
       setExpire(decoded.exp)
     } catch (error) {
-      if(error.response){
+      if (error.response) {
         navigate('/')
       }
-
     }
   }
 
   const axiosJWT = axios.create()
 
-  axiosJWT.interceptors.request.use(async(config)=>{
-    const currentDate = new Date()
-    if(expire * 1000 < currentDate.getTime()){
-      const response = await axios.get('http://localhost:5000/token')
-      config.headers.Authorization = `Bearer ${response.data.accessToken}`
-      setToken(response.data.accessToken)
-      const decoded = jwtDecode(response.data.accessToken)
-      setName(decoded.name)
-      setExpire(decoded.exp)
+  axiosJWT.interceptors.request.use(
+    async config => {
+      const currentDate = new Date()
+      if (expire * 1000 < currentDate.getTime()) {
+        const response = await axios.get('http://localhost:5000/token')
+        config.headers.Authorization = `Bearer ${response.data.accessToken}`
+        setToken(response.data.accessToken)
+        const decoded = jwtDecode(response.data.accessToken)
+        setName(decoded.name)
+        setExpire(decoded.exp)
+      }
+      return config
+    },
+    error => {
+      return Promise.reject(error)
     }
-    return config
-  },(error)=>{
-    return Promise.reject(error)
-  })
+  )
 
-  const getUser = async () =>{
-    const response = await axiosJWT.get('http://localhost:5000/users',{
+  const getUser = async () => {
+    const response = await axiosJWT.get('http://localhost:5000/users', {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    });
-    console.log(response.data);
+    })
+    setUser(response.data)
   }
 
   useEffect(() => {
     refreshToken()
+    getUser()
   }, [])
 
   return (
-    <div>
+    <>
       <Navbar />
-      Welcome Back: {name}
-      <button onClick={getUser} className='px-6 text-white py-2 mt-4 rounded-lg bg-indigo-800 mx-4'>Get Users</button>
-    </div>
+      <div className='min-w-full flex justify-center'>
+        <div className='flex flex-col my-4'>
+          <div className='flex flex-row items-center'>
+            <p className='capitalize'>Welcome Back: <span className='font-bold'>{name}</span></p>
+            <button
+              onClick={getUser}
+              className='px-6 text-white py-2 rounded-lg bg-indigo-800 mx-4'
+            >
+              Get Users
+            </button>
+          </div>
+          <table className='mt-4 table-auto min-w-full text-left text-sm font-light text-surface'>
+            <thead className='border-b border-gray-700 font-medium'>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {user.map((user, index) => (
+                <tr key={user.id} className='border-b border-neutral-200 bg-black/[0.02]'>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
   )
 }
 

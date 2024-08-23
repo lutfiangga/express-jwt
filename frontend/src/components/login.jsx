@@ -84,7 +84,7 @@ const Login = () => {
               </form>
             </div>
             <p className='text-center text-gray-500 text-xs'>
-              &copy;2020 Acme Corp. All rights reserved.
+              &copy;2024 Luphiee. All rights reserved.
             </p>
           </div>
         </div>
