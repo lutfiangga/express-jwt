@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -8,11 +8,14 @@ const Login = () => {
   const [msg, setMsg] = useState('')
   const navigate = useNavigate()
 
+const apiUrl = import.meta.env.VITE_PRIVATE_API_URL
+
+
   const Auth = async e => {
     e.preventDefault()
     console.log(email, password)
     try {
-      await axios.post('http://localhost:5000/login', {
+      await axios.post(`${apiUrl}/login`, {
         email: email,
         password: password
       })
@@ -53,7 +56,7 @@ const Login = () => {
                     onChange={e => setEmail(e.target.value)}
                   />
                 </div>
-                <div className='mb-4'>
+                <div className='mb-2'>
                   <label
                     className='block text-gray-700 text-sm font-bold mb-2'
                     htmlFor='password'
@@ -72,6 +75,7 @@ const Login = () => {
                     Please choose a password.
                   </p> */}
                 </div>
+                <Link to={'/register'} className='mb-4'>Belum Punya Akun?</Link>
                 <div className='flex items-center justify-between'>
                   <button
                     className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-

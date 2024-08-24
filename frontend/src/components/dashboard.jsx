@@ -11,9 +11,11 @@ const Dashboard = () => {
   const [user, setUser] = useState([])
   const navigate = useNavigate()
 
+  const apiUrl = import.meta.env.VITE_PRIVATE_API_URL
+
   const refreshToken = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/token')
+      const response = await axios.get(`${apiUrl}/token`)
       setToken(response.data.accessToken)
       const decoded = jwtDecode(response.data.accessToken)
       // console.log(decoded)
@@ -32,7 +34,7 @@ const Dashboard = () => {
     async config => {
       const currentDate = new Date()
       if (expire * 1000 < currentDate.getTime()) {
-        const response = await axios.get('http://localhost:5000/token')
+        const response = await axios.get(`${apiUrl}/token`)
         config.headers.Authorization = `Bearer ${response.data.accessToken}`
         setToken(response.data.accessToken)
         const decoded = jwtDecode(response.data.accessToken)
@@ -47,7 +49,7 @@ const Dashboard = () => {
   )
 
   const getUser = async () => {
-    const response = await axiosJWT.get('http://localhost:5000/users', {
+    const response = await axiosJWT.get(`${apiUrl}/users`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

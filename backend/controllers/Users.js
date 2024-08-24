@@ -1,6 +1,8 @@
+import dotenv from 'dotenv';
 import Users from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+dotenv.config();
 
 export const getUsers = async(req,res) => {
     try {
@@ -32,6 +34,10 @@ export const Register = async (req, res) => {
 }
 
 export const Login = async (req,res)=>{
+
+    const RefreshToken = process.env.REFRESH_TOKEN_SECRET
+    const PrivateToken = process.env.ACCESS_TOKEN_SECRET
+    
     try {
         const user = await Users.findAll({
             where:{
@@ -44,10 +50,10 @@ export const Login = async (req,res)=>{
         const name = user[0].name;
         const email = user[0].email;
 
-        const accessToken = jwt.sign({userId,name,email}, process.env.ACCESS_TOKEN_SECRET,{
+        const accessToken = jwt.sign({userId,name,email}, PrivateToken,{
             expiresIn: '60s'
         });
-        const refreshToken = jwt.sign({userId,name,email}, process.env.REFRESH_TOKEN_SECRET,{
+        const refreshToken = jwt.sign({userId,name,email}, RefreshToken,{
             expiresIn: '1d'
         });
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
   const [name, setName] = useState('')
@@ -10,11 +10,13 @@ const Register = () => {
   const [msg, setMsg] = useState('')
   const navigate = useNavigate()
 
+  const apiUrl = import.meta.env.VITE_PRIVATE_API_URL
+
   const Register = async e => {
     e.preventDefault()
     console.log(name, email, password, confPassword)
     try {
-      await axios.post('http://localhost:5000/users', {
+      await axios.post(`${apiUrl}/users`, {
         name: name,
         email: email,
         password: password,
@@ -92,7 +94,7 @@ const Register = () => {
                     Please choose a password.
                   </p> */}
                 </div>
-                <div className='mb-6'>
+                <div className='mb-4'>
                   <label
                     className='block text-gray-700 text-sm font-bold mb-2'
                     htmlFor='confpassword'
@@ -111,6 +113,7 @@ const Register = () => {
                     {msg}
                   </p>
                 </div>
+                 <Link to={'/'} className='mb-4'>Sudah Punya Akun?</Link>
                 <div className='flex items-center justify-between'>
                   <button
                     className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-

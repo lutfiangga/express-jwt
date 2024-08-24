@@ -1,8 +1,16 @@
+import dotenv from 'dotenv';
 import { Sequelize } from "sequelize";
+dotenv.config();
 
-const db = new Sequelize('auth_db','root','',{
-    host:'localhost',
-    port: 3333,
+const hostname = process.env.DB_HOSTNAME
+const database = process.env.DB_NAME
+const username = process.env.DB_USERNAME
+const password = process.env.DB_PASSWORD
+const port = process.env.DB_PORT
+
+const db = new Sequelize(database,username,password,{
+    host: hostname,
+    port: port,
     dialect:'mysql'
 });
 

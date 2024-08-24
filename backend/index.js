@@ -9,7 +9,7 @@ import router from "./routes/index.js";
 
 dotenv.config();
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT_SERVER;
 
 try{
     await db.authenticate();
