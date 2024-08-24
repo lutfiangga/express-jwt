@@ -95,5 +95,6 @@ This is a simple project that implements user login functionality using JWT (JSO
 - **Features:** Daftar fitur yang ada dalam proyek.
 - **Tech Stack:** Teknologi yang digunakan dalam proyek.
 - **Installation:** Langkah-langkah untuk menginstal dependensi dan memulai proyek.
+- **Configuration:** Pengaturan file `.env` untuk koneksi database dan JWT.
 - **Running the Project:** Cara menjalankan server backend dan frontend.
 - **Usage:** Langkah-langkah penggunaan aplikasi.
